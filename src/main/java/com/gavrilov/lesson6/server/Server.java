@@ -7,7 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class server {
+public class Server {
     private static int port = 3333;
 
     public static void main(String[] args) throws IOException {
@@ -20,9 +20,8 @@ public class server {
             }
 
             public void run() {
-                BufferedReader in = null;
-                PrintWriter out = null;
-
+                BufferedReader in;
+                PrintWriter out;
                 try {
                     in = new BufferedReader(new InputStreamReader(
                             client.getInputStream()));
@@ -31,19 +30,17 @@ public class server {
                     System.err.println(e);
                     return;
                 }
-
                 String msg;
                 try {
                     while ((msg = in.readLine()) != null) {
                         System.out.println("Client says: " + msg);
-                        out.println("OK");
+                        out.println("Сообщение доставлено на сервер");
                     }
                 } catch (IOException e) {
                     System.err.println(e);
                 }
             }
         }
-
         ServerSocket server = null;
         try {
             server = new ServerSocket(port);
@@ -56,7 +53,9 @@ public class server {
         Socket client = null;
         while (true) {
             try {
+                System.out.println("Сервер подключен");
                 client = server.accept();
+
             } catch (IOException e) {
                 System.err.println("Accept failed.");
                 System.err.println(e);
